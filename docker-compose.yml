@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  dj_db:
+    container_name: dj_db
+    image: postgres
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./data/postgresql:/var/lib/postgresql/data
+  django_boilerplate:
+    container_name: django_boilerplate
+    restart: always
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    command: >
+      sh -c "python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py create_init_user &&
+             python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./backend:/backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - dj_db
+  frontend:
+    container_name: react_frontend
+    restart: always
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    user: root
+    command: /bin/bash -c "npm install && npm run start"
+    volumes:
+      - ./frontend:/frontend
+    ports:
+      - "3000:3000"
+

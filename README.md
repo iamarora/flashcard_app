@@ -11,10 +11,15 @@
 - Docker compose up takes care of running migrations to create the models, creating first superuser admin and starting the server.
 
 
-#### Approach
+### Approach
 1. Set up 3 docker containers as a database was required, 1 backend app with APIs to get and update the words for the flashcard app along with an admin to create words+definition and a frontend server for the user facing app.
 2. Created the basic model for storing the words, definitions along with bin number, next available time and the incorrect counter to be the base of the application to serve the words for flashcards.
 3. Created 2 APIViews using DRF - 1. To get a words which should show up for the flashcard app, 2. To update if the definition was right or wrong.
 4. Added methods with logic to get next word, mark as correct and mark as wrong in the model and mapped it to the API.
 5. Created a single page react app to use the get and put APIs to show the words and mark the definition as right or wrong. 
   
+### Improvements
+- Add test cases.
+- Add swagger/openAPI based documentation for the APIs.
+- Multiple user implementation with separate logins on the frontend.
+- Add CI/CD.
